@@ -1,3 +1,0 @@
-[submodule "provision/3d/kubespray"]
-	path = provision/3d/kubespray
-	url = git@github.com:NerdyHamster/kubespray.git
