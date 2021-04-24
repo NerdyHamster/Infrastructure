@@ -1,0 +1,23 @@
+---
+- name: Disallow root SSH access
+  lineinfile: dest=/etc/ssh/sshd_config
+              regexp="^PermitRootLogin"
+              line="PermitRootLogin no"
+              state=present
+
+- name: Disable SSH password authentication
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^#PasswordAuthentication yes'
+    line: 'PasswordAuthentication no'
+
+- name: Setup alternate SSHd port
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: '^#Port'
+    line: 'Port {{ ssh_port }}'
+
+- name: Reload SSH
+  service:
+    name: sshd
+    state: reloaded

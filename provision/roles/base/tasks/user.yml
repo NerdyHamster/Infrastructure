@@ -1,0 +1,20 @@
+- name: Add local user
+  user:
+    name: '{{ user }}'
+    group: sudo
+    create_home: yes
+    state: present
+
+- name: Add SSH public key for user
+  authorized_key:
+    user: '{{ user }}'
+    key: "{{ lookup('file', ssh_key ) }}"
+    state: present
+
+- name: Allow wheel group to have passwordless sudo
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: '^%sudo'
+    line: '%sudo ALL=(ALL) NOPASSWD: ALL'
+    validate: /usr/sbin/visudo -csf %s

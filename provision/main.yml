@@ -17,4 +17,14 @@
   tags: base
   become: true
   roles:
-    - base
+    - role: base
+      vars:
+        user: leo
+        ssh_key: ~/.ssh/id_ed25519.pub
+        ssh_port: 4422
+
+    - role: base
+      vars:
+        user: ansible
+        ssh_key: ~/.ssh/id_ed25519.pub
+        ssh_port: 4422
