@@ -1,0 +1,18 @@
+galaxy_info:
+  author: Leo Ronnebro
+  description: Base ansible role for setting up debian hosts, with new user and disable root login
+  company: Unkown
+
+  license: GNU
+
+  min_ansible_version: 2.1
+
+
+  platforms:
+   - name: Debian
+     versions:
+      - all
+
+  galaxy_tags: []
+
+dependencies: []

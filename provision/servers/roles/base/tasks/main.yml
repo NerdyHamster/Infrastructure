@@ -1,0 +1,6 @@
+---
+- name: Update all packages to their latest version
+  tags: base, update, system
+  apt:
+    name: "*"
+    state: latest

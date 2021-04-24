@@ -1,0 +1,20 @@
+---
+- name: Nerdyhamster.net Server provision
+  hosts: all
+  tags: always
+  become: true
+
+  pre_tasks:
+    - name: pre-run | [Debian...] update package cache
+      tags: always
+      apt:
+        update_cache: yes
+      changed_when: False
+      when: ansible_distribution in ["Debian", "Ubuntu"]
+
+
+- hosts: all
+  tags: base
+  become: true
+  roles:
+    - base
