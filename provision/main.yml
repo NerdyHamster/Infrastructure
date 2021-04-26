@@ -12,7 +12,7 @@
       tags: always
       apt:
         update_cache: yes
-      changed_when: False
+      changed_when: false
       when: ansible_distribution in ["Debian", "Ubuntu"]
 
     - name: pre-run | [Debian...] Update all packages to their latest version.
@@ -24,6 +24,7 @@
 
   handlers:
     - import_tasks: handlers/handlers.yml
+
   tasks:
     - import_tasks: tasks/user.yml
     - import_tasks: tasks/ssh.yml
