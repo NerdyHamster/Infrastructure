@@ -1,0 +1,33 @@
+---
+- name: Add local user
+  user:
+    name: '{{ user }}'
+    shell: /bin/bash
+    create_home: yes
+    state: present
+
+- name: Add SSH public key for user
+  authorized_key:
+    user: '{{ user }}'
+    key: "{{ lookup('file', pub_ssh_key ) }}"
+    state: present
+
+- name: "Check if sudoers.d/{{ user }} is present"
+  stat:
+    path: "/etc/sudoers.d/{{ user }}"
+  register: sudoers_file
+
+- name: "Create new sudoers file for {{ user }}"
+  file:
+    path: "/etc/sudoers.d/{{ user }}"
+    state: touch
+  when: not sudoers_file.stat.exists
+
+- name: "Allow {{ user }}, execute sudo without pwd"
+  lineinfile:
+    dest: "/etc/sudoers.d/{{ user }}"
+    state: present
+    line: '%{{ user }} ALL=(ALL) NOPASSWD: ALL'
+    insertbefore: BOF
+    validate: /usr/sbin/visudo -csf %s
+  when: not sudoers_file.stat.exists

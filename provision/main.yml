@@ -4,27 +4,26 @@
   tags: always
   become: true
 
+  vars_files:
+    - vars/vars.yml
+
   pre_tasks:
-    - name: pre-run | [Debian...] update package cache
+    - name: pre-run | [Debian...] update package cache.
       tags: always
       apt:
         update_cache: yes
       changed_when: False
       when: ansible_distribution in ["Debian", "Ubuntu"]
 
+    - name: pre-run | [Debian...] Update all packages to their latest version.
+      tags: base, update, system
+      apt:
+        name: "*"
+        state: latest
+      when: ansible_distribution in ["Debian", "Ubuntu"]
 
-- hosts: all
-  tags: base
-  become: true
-  roles:
-    - role: base
-      vars:
-        user: leo
-        ssh_key: ~/.ssh/id_ed25519.pub
-        ssh_port: 4422
-
-    - role: base
-      vars:
-        user: ansible
-        ssh_key: ~/.ssh/id_ed25519.pub
-        ssh_port: 4422
+  handlers:
+    - import_tasks: handlers/handlers.yml
+  tasks:
+    - import_tasks: tasks/user.yml
+    - import_tasks: tasks/ssh.yml

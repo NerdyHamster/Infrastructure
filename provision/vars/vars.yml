@@ -1,0 +1,4 @@
+---
+user: ansible
+pub_ssh_key: "~/.ssh/id_ed25519.pub"
+ssh_port: 4422
